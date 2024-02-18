@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model SearchFormModel
+@{
+}
+<form method="post" class="row g-3" asp-controller="Home" asp-action="Index">
+    <div class=" mb-2 text-center">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" checked name="source" id="rdoTopHeadlines" value="top">
+            <label class="form-check-label" for="rdoTopHeadlines">Top Headlines</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="source" id="rdoEverywhere" value="everywhere">
+            <label class="form-check-label" for="rdoEverywhere">Everywhere</label>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <label for="country" class="form-label">Country</label>
+        <div class="input-group ">
+            <select class="form-select" asp-items="@Model.Countries" name="country" id="country">
+            </select>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <label for="category" class="form-label">Category</label>
+        <div class="input-group ">
+            <select class="form-select" asp-items="@Model.Categories" name="category" id="category">
+            </select>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <label for="language" class="form-label">Language</label>
+        <div class="input-group ">
+            <select class="form-select" asp-items="@Model.Languages" name="language" id="language">
+            </select>
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" id="search" placeholder="Search for news" name="search" value="@ViewBag.search">
+        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">🔍 Search</button>
+    </div>
+</form>

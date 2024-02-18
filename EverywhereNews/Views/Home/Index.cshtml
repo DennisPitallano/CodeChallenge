@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model IEnumerable<EverywhereNews.Models.Article>
+
+<div class="text-center">
+    <h1 class="display-4">@ViewBag.NewsTitle</h1>
+    <p>Uncover the World: News Everywhere - Your Gateway to Global Insights!</p>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            @await Component.InvokeAsync("SearchForm", new
+                {
+                    selectedCountry = ViewBag.SelectedCountry,
+                    selectedCategory = ViewBag.SelectedCategory,
+                    selectedLanguage = ViewBag.SelectedLanguage,
+                })
+        </div>
+    </div>
+    <div class="row">
+        @foreach (var news in Model)
+        {
+            <div class="col-6">
+                <div class="card">
+                    @if (news?.UrlToImage != null)
+                    {
+                        <img src="@news.UrlToImage" class="card-img-top" alt="...">
+                    }
+                    else
+                    {
+                        <img src="~/images/news.png" class="card-img-top" alt="...">
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@news.Title</h5>
+                        <p class="card-text">@news.Description</p>
+                        <p class="card-text"><small class="text-body-secondary align-content-end">Published by :@news.Author @@ @news.PublishedAt</small></p>
+                        <a href="@news.Url" target="_blank" class="card-link">more details...</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+
+<script>
+        $(document).ready(function () {
+            let source = '@ViewBag.Source';
+            if (source === 'top') {
+                $("#rdoTopHeadlines").prop('checked', true);
+                $("#language").prop('disabled', true);
+                $("#search").removeProp('required');
+            } else {
+                $("#rdoEverywhere").prop('checked', true);
+                $("#language").prop('disabled', false);
+                $("#search").addProp('required');
+            }
+            handleSourceOption();
+           
+        });
+        function handleSourceOption() {
+            $("[name=source]").change(function () {
+                console.log($(this).val());
+                if ($(this).val() === 'top') {
+                    $("#language").prop('disabled', true);
+                    $("#country").prop('disabled', false);
+                    $("#category").prop('disabled', false);
+                    $("#search").prop('required',false);
+                } else {
+                    $("#language").prop('disabled', false);
+                    $("#country").prop('disabled', true);
+                    $("#category").prop('disabled', true);
+                    $("#search").prop('required',true);
+                }
+            });
+        }
+        
+</script>
+}
